@@ -1,4 +1,8 @@
 {
-    "appbar_guess_quote": "Geuss the quote!",
-    "appbar_characters" : "Characters"
+    "appbar_guess_quote": "Guess the Quote!",
+    "appbar_quotes": "Quotes",
+    "appbar_about": "About the App",
+    "appbar_movies_list": "Select movie",
+
+    "bottombar_guess_quote": "Guess"
 }

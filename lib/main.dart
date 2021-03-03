@@ -6,6 +6,10 @@ import 'package:bp_flutter_app/helpers/json_parse_helper.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:bp_flutter_app/services/app_localizations.dart';
 import 'package:bp_flutter_app/widgets/phoenix.dart';
+import 'package:bp_flutter_app/screens/guess_screen.dart';
+import 'package:bp_flutter_app/screens/movies_list_screen.dart';
+import 'package:bp_flutter_app/helpers/color_helper.dart';
+import 'package:bp_flutter_app/helpers/constants.dart';
 
 class _BottomBarItem {
   const _BottomBarItem(this.index, this.titleKey, this.icon, this.iconActive);
@@ -17,8 +21,8 @@ class _BottomBarItem {
 }
 
 List<_BottomBarItem> _bottomBarItems = <_BottomBarItem>[
-  _BottomBarItem(0, 'appbar_guess_quote', Icon(Icons.article_outlined), null),
-  _BottomBarItem(1, 'appbar_characters', Icon(Icons.date_range_outlined), null)
+  _BottomBarItem(0, 'bottombar_guess_quote', Icon(Icons.psychology_rounded), null),
+  _BottomBarItem(1, 'appbar_quotes', Icon(Icons.format_quote_rounded), null)
 ];
 
 class MyHomePage extends StatefulWidget {
@@ -30,12 +34,18 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   List<GlobalKey<NavigatorState>> _navigatorKeys =
       List<GlobalKey<NavigatorState>>.generate(_bottomBarItems.length, (index) => GlobalKey<NavigatorState>()).toList();
-  int _counter = 0;
   int _currentIndex = 0;
+  Future _fetchDataFuture;
 
   CharactersModel charactersData;
   MoviesModel moviesData;
   QuotesModel quotesData;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchDataFuture = Future.wait([_charactersFuture(), _moviesFuture(), _quotesFuture()]);
+  }
 
   Future<String> _charactersFuture() async {
     return DefaultAssetBundle.of(context).loadString('assets/characters.json');
@@ -49,25 +59,12 @@ class _MyHomePageState extends State<MyHomePage> {
     return DefaultAssetBundle.of(context).loadString('assets/quotes.json');
   }
 
-  void _incrementCounter() {
-    print(charactersData.docs.length);
-    print(moviesData.docs.length);
-    print(quotesData.docs.length);
-
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('LOTR Guess the Quote'),
-      ),
       body: Center(
           child: FutureBuilder(
-        future: Future.wait([_charactersFuture(), _moviesFuture(), _quotesFuture()]),
+        future: _fetchDataFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
             return Center(
@@ -104,20 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
           );
         },
       )),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
-  }
-
-  bool isEmpty(CharactersModel characters, MoviesModel movies, QuotesModel quotes) {
-    bool isEmpty = false;
-    if (characters == null || movies == null || quotes == null) {
-      isEmpty = true;
-    }
-    return isEmpty;
   }
 
   Widget _getContent() {
@@ -138,32 +122,10 @@ class _MyHomePageState extends State<MyHomePage> {
         Widget screen;
         switch (index) {
           case 0:
-            screen = Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'You have pushed the button this many times:',
-                ),
-                Text(
-                  '$_counter',
-                  style: Theme.of(context).textTheme.headline4,
-                ),
-              ],
-            );
+            screen = GuessScreen(fullscreenPush: _fullscreenPush);
             break;
           case 1:
-            screen = Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'You have pushed the button this many times:',
-                ),
-                Text(
-                  '$_counter',
-                  style: Theme.of(context).textTheme.headline4,
-                ),
-              ],
-            );
+            screen = MoviesListScreen(fullscreenPush: _fullscreenPush);
             break;
         }
         return screen;
@@ -187,8 +149,8 @@ void main() {
       ],
       title: 'LOTR Guess Quote',
       theme: ThemeData(
-        // primarySwatch: createMaterialColor(kPrimaryColor),
-        // primaryTextTheme: TextTheme(headline6: TextStyle(color: createMaterialColor(kPrimaryColor))),
+        primarySwatch: createMaterialColor(kPrimaryColor),
+        primaryTextTheme: TextTheme(headline6: TextStyle(color: createMaterialColor(kPrimaryColor))),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(),
