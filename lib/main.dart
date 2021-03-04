@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:bp_flutter_app/models/characters_model.dart';
-import 'package:bp_flutter_app/models/movies_model.dart';
-import 'package:bp_flutter_app/models/quotes_model.dart';
+import 'package:bp_flutter_app/globals.dart';
 import 'package:bp_flutter_app/helpers/json_parse_helper.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:bp_flutter_app/services/app_localizations.dart';
@@ -37,10 +35,6 @@ class _MyHomePageState extends State<MyHomePage> {
   int _currentIndex = 0;
   Future _fetchDataFuture;
 
-  CharactersModel charactersData;
-  MoviesModel moviesData;
-  QuotesModel quotesData;
-
   @override
   void initState() {
     super.initState();
@@ -70,11 +64,11 @@ class _MyHomePageState extends State<MyHomePage> {
             return Center(
               child: CircularProgressIndicator(),
             );
-          } else {
-            charactersData = JsonParseHelper().getCharacters(snapshot.data[0]);
-            moviesData = JsonParseHelper().getMovies(snapshot.data[1]);
-            quotesData = JsonParseHelper().getQuotes(snapshot.data[2]);
           }
+
+          globalCharacters = JsonParseHelper().getCharacters(snapshot.data[0]);
+          globalMovies = JsonParseHelper().getMovies(snapshot.data[1]);
+          globalQuotes = JsonParseHelper().getQuotes(snapshot.data[2]);
 
           return Scaffold(
             body: SafeArea(
