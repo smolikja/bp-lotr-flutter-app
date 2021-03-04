@@ -20,6 +20,7 @@ class _AboutScreenScreenState extends State<AboutScreen> {
       appBar: CustomAppBar(
         title: AppLocalizations.of(context).translate('appbar_about'),
         fullscreenPush: widget.fullscreenPush,
+        hideAbout: true,
       ),
       body: SingleChildScrollView(child: Text("About")),
     );
