@@ -6,6 +6,8 @@ import 'package:bp_flutter_app/models/movies_model.dart';
 import 'package:bp_flutter_app/models/quotes_model.dart';
 import 'package:bp_flutter_app/widgets/list_divider.dart';
 import 'package:bp_flutter_app/widgets/character_list_tile.dart';
+import 'package:bp_flutter_app/widgets/separator.dart';
+import 'package:bp_flutter_app/widgets/movie_info_widget.dart';
 
 class MovieScreen extends BaseStatefulWidget {
   final Movie movie;
@@ -58,6 +60,8 @@ class _MovieScreenState extends State<MovieScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  MovieInfoWidget(movie: widget.movie),
+                  Separator(),
                   ListView.separated(
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,

@@ -5,6 +5,8 @@ import 'package:bp_flutter_app/models/characters_model.dart';
 import 'package:bp_flutter_app/models/quotes_model.dart';
 import 'package:bp_flutter_app/globals.dart';
 import 'package:bp_flutter_app/widgets/list_divider.dart';
+import 'package:bp_flutter_app/widgets/separator.dart';
+import 'package:bp_flutter_app/widgets/character_info_widget.dart';
 
 class CharacterScreen extends BaseStatefulWidget {
   final Character character;
@@ -59,6 +61,8 @@ class _CharacterScreenState extends State<CharacterScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+                CharacterInfoWidget(character: widget.character),
+                Separator(),
                 ListView.separated(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
