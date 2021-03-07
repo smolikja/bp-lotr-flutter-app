@@ -52,8 +52,7 @@ class _CharacterScreenState extends State<CharacterScreen> {
               child: CircularProgressIndicator(),
             );
           }
-          _quoteData = snapshot.data..shuffle();
-          List<Quote> _quotesList = _quoteData.take(_quotesToShow).toList();
+          _quoteData = snapshot.data.take(_quotesToShow).toList();
 
           return SingleChildScrollView(
             controller: _scrollController,
@@ -64,13 +63,13 @@ class _CharacterScreenState extends State<CharacterScreen> {
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   separatorBuilder: (context, index) => ListDivider(indent: 16.0),
-                  itemCount: _quotesList.length,
+                  itemCount: _quoteData.length,
                   itemBuilder: (context, index) {
                     return Container(
                       width: MediaQuery.of(context).size.width,
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
-                        child: Text(_quotesList[index].dialog),
+                        child: Text(_quoteData[index].dialog),
                       ),
                     );
                   },
@@ -84,7 +83,7 @@ class _CharacterScreenState extends State<CharacterScreen> {
   }
 
   Future<List<Quote>> _getQuotes() async {
-    return globalQuotes.docs.where((quote) => quote.character == widget.character.id).toList();
+    return globalQuotes.docs.where((quote) => quote.character == widget.character.id).toList()..shuffle();
   }
 
   void _scrollListener() {

@@ -51,8 +51,7 @@ class _MovieScreenState extends State<MovieScreen> {
                 child: CircularProgressIndicator(),
               );
             }
-            _quoteData = snapshot.data..shuffle();
-            List<Quote> _quotesList = _quoteData.take(_quotesToShow).toList();
+            _quoteData = snapshot.data.take(_quotesToShow).toList();
 
             return SingleChildScrollView(
               controller: _scrollController,
@@ -63,7 +62,7 @@ class _MovieScreenState extends State<MovieScreen> {
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     separatorBuilder: (context, index) => ListDivider(indent: 16.0),
-                    itemCount: _quotesList.length,
+                    itemCount: _quoteData.length,
                     itemBuilder: (context, index) {
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -72,11 +71,11 @@ class _MovieScreenState extends State<MovieScreen> {
                             width: MediaQuery.of(context).size.width,
                             child: Padding(
                               padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 8.0),
-                              child: Text(_quotesList[index].dialog),
+                              child: Text(_quoteData[index].dialog),
                             ),
                           ),
                           CharacterListTile(
-                              fullscreenPush: widget.fullscreenPush, characterId: _quotesList[index].character)
+                              fullscreenPush: widget.fullscreenPush, characterId: _quoteData[index].character)
                         ],
                       );
                     },
@@ -89,7 +88,8 @@ class _MovieScreenState extends State<MovieScreen> {
   }
 
   Future<List<Quote>> _getQuotes() async {
-    return globalQuotes.docs.where((quote) => quote.movie == widget.movie.id).toList();
+    print("got");
+    return globalQuotes.docs.where((quote) => quote.movie == widget.movie.id).toList()..shuffle();
   }
 
   void _scrollListener() {
