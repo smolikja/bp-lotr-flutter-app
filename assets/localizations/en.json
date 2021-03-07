@@ -27,5 +27,8 @@
     "quote_copy_text": "Quote copied to clipboard",
 
     "failed_load_title": "Failed to load :(",
-    "failed_load_refresh": "Refresh, please"
+    "failed_load_refresh": "Refresh, please",
+
+    "guess_screen_uncover": "Uncover character",
+    "guess_screen_next": "Next"
 }
