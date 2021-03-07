@@ -1,9 +1,9 @@
 import 'package:bp_flutter_app/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:bp_flutter_app/screens/base_stateful_widget.dart';
-import 'package:bp_flutter_app/widgets/custom_appbar.dart';
 import 'package:bp_flutter_app/models/characters_model.dart';
 import 'package:bp_flutter_app/helpers/constants.dart';
+import 'package:bp_flutter_app/screens/character_screen.dart';
 
 class CharacterListTile extends BaseStatefulWidget {
   final String characterId;
@@ -40,11 +40,11 @@ class _CharacterListTileState extends State<CharacterListTile> {
         _characterData = snapshot.data;
         return ListTile(
           onTap: () {
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //         builder: (context) =>
-            //             MovieScreen(fullscreenPush: widget.fullscreenPush, movie: _moviesData[index])));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        CharacterScreen(fullscreenPush: widget.fullscreenPush, character: _characterData)));
           },
           title: Text(_characterData.name,
               style: TextStyle(color: kGreyLightColor, fontSize: 14.0, fontWeight: FontWeight.bold)),

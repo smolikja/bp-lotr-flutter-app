@@ -21,7 +21,7 @@ class _MovieScreenState extends State<MovieScreen> {
   Future<List<Quote>> _quotesFuture;
   List<Quote> _quoteData;
   ScrollController _scrollController = ScrollController();
-  int _quotesToShow = 20;
+  int _quotesToShow = 10;
 
   @override
   void initState() {
@@ -68,9 +68,12 @@ class _MovieScreenState extends State<MovieScreen> {
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 8.0),
-                            child: Text(_quotesList[index].dialog),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 8.0),
+                              child: Text(_quotesList[index].dialog),
+                            ),
                           ),
                           CharacterListTile(
                               fullscreenPush: widget.fullscreenPush, characterId: _quotesList[index].character)
@@ -92,7 +95,7 @@ class _MovieScreenState extends State<MovieScreen> {
   void _scrollListener() {
     if (_scrollController.position.extentAfter < _quotesToShow) {
       setState(() {
-        _quotesToShow = _quotesToShow + 20;
+        _quotesToShow = _quotesToShow + 10;
       });
     }
   }
