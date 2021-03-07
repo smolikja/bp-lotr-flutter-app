@@ -8,6 +8,9 @@ import 'package:bp_flutter_app/widgets/list_divider.dart';
 import 'package:bp_flutter_app/widgets/character_list_tile.dart';
 import 'package:bp_flutter_app/widgets/separator.dart';
 import 'package:bp_flutter_app/widgets/movie_info_widget.dart';
+import 'package:flutter/services.dart';
+
+import 'package:bp_flutter_app/services/app_localizations.dart';
 
 class MovieScreen extends BaseStatefulWidget {
   final Movie movie;
@@ -68,7 +71,7 @@ class _MovieScreenState extends State<MovieScreen> {
                     separatorBuilder: (context, index) => ListDivider(indent: 16.0),
                     itemCount: _quoteData.length,
                     itemBuilder: (context, index) {
-                      if (_quoteData[index].dialog != "") {
+                      if (_quoteData[index].dialog.isNotEmpty) {
                         return Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -76,7 +79,17 @@ class _MovieScreenState extends State<MovieScreen> {
                               width: MediaQuery.of(context).size.width,
                               child: Padding(
                                 padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 8.0),
-                                child: Text(_quoteData[index].dialog),
+                                child: GestureDetector(
+                                  child: Text(_quoteData[index].dialog),
+                                  onLongPress: () {
+                                    Clipboard.setData(new ClipboardData(text: _quoteData[index].dialog)).then((_) {
+                                      Scaffold.of(context).showSnackBar(SnackBar(
+                                        content: Text(AppLocalizations.of(context).translate("quote_copy_text")),
+                                        duration: Duration(seconds: 1),
+                                      ));
+                                    });
+                                  },
+                                ),
                               ),
                             ),
                             CharacterListTile(
@@ -96,7 +109,6 @@ class _MovieScreenState extends State<MovieScreen> {
   }
 
   Future<List<Quote>> _getQuotes() async {
-    print("got");
     return globalQuotes.docs.where((quote) => quote.movie == widget.movie.id).toList()..shuffle();
   }
 

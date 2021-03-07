@@ -17,29 +17,29 @@ class MovieInfoWidget extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              if (movie.name != null && movie.name != "")
+              if (movie.name != null && movie.name.isNotEmpty)
                 InfoRow(title: AppLocalizations.of(context).translate("movie_title_name"), value: movie.name),
-              if (movie.runtimeInMinutes != null && movie.runtimeInMinutes != "")
+              if (movie.runtimeInMinutes != null)
                 InfoRow(
                     title: AppLocalizations.of(context).translate("movie_title_runtime"),
                     value: movie.runtimeInMinutes.toString()),
-              if (movie.budgetInMillions != null && movie.budgetInMillions != "")
+              if (movie.budgetInMillions != null)
                 InfoRow(
                     title: AppLocalizations.of(context).translate("movie_title_budget"),
                     value: movie.budgetInMillions.toString()),
-              if (movie.boxOfficeRevenueInMillions != null && movie.boxOfficeRevenueInMillions != "")
+              if (movie.boxOfficeRevenueInMillions != null)
                 InfoRow(
                     title: AppLocalizations.of(context).translate("movie_title_box_revenue"),
                     value: movie.budgetInMillions.toString()),
-              if (movie.academyAwardNominations != null && movie.academyAwardNominations != "")
+              if (movie.academyAwardNominations != null)
                 InfoRow(
                     title: AppLocalizations.of(context).translate("movie_title_nominations"),
                     value: movie.academyAwardNominations.toString()),
-              if (movie.academyAwardWins != null && movie.academyAwardWins != "")
+              if (movie.academyAwardWins != null)
                 InfoRow(
                     title: AppLocalizations.of(context).translate("movie_title_wins"),
                     value: movie.academyAwardWins.toString()),
-              if (movie.rottenTomatesScore != null && movie.rottenTomatesScore != "")
+              if (movie.rottenTomatesScore != null)
                 InfoRow(
                     title: AppLocalizations.of(context).translate("movie_title_rotten_score"),
                     value: movie.rottenTomatesScore.toString())

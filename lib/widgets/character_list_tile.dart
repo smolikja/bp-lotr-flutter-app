@@ -38,7 +38,7 @@ class _CharacterListTileState extends State<CharacterListTile> {
           );
         }
         _characterData = snapshot.data;
-        if (_characterData.name != "") {
+        if (_characterData.name.isNotEmpty) {
           return ListTile(
             onTap: () {
               Navigator.push(
