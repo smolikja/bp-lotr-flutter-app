@@ -76,6 +76,8 @@ class _MyHomePageState extends State<MyHomePage> {
               child: _getContent(),
             ),
             bottomNavigationBar: BottomNavigationBar(
+              backgroundColor: Colors.black,
+              unselectedItemColor: kGreyDarkColor,
               type: BottomNavigationBarType.fixed,
               currentIndex: _currentIndex,
               onTap: (int index) {
@@ -143,10 +145,11 @@ void main() {
       ],
       title: 'LOTR Guess Quote',
       theme: ThemeData(
-        primarySwatch: createMaterialColor(kPrimaryColor),
-        primaryTextTheme: TextTheme(headline6: TextStyle(color: createMaterialColor(kPrimaryColor))),
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+          primarySwatch: createMaterialColor(kPrimaryColor),
+          primaryTextTheme: TextTheme(headline6: TextStyle(color: createMaterialColor(kPrimaryColor))),
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          scaffoldBackgroundColor: Colors.black,
+          textTheme: TextTheme(bodyText1: TextStyle(), bodyText2: TextStyle()).apply(bodyColor: Colors.white)),
       home: MyHomePage(),
     ),
   ));

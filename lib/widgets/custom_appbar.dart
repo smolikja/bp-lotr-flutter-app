@@ -22,8 +22,8 @@ class CustomAppBar extends BaseStatelessWidget with PreferredSizeWidget {
       ),
       title: Text(title),
       centerTitle: true,
-      backgroundColor: Colors.white,
-      brightness: Brightness.light,
+      backgroundColor: Colors.black,
+      brightness: Brightness.dark,
       actions: [
         if (!_hideAbout)
           InkWell(
