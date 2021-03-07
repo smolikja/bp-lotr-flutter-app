@@ -1,5 +1,5 @@
 class QuotesModel {
-  List<Docs> docs;
+  List<Quote> docs;
 
   QuotesModel({this.docs});
 
@@ -7,21 +7,21 @@ class QuotesModel {
     if (json['docs'] != null) {
       docs = [];
       json['docs'].forEach((v) {
-        docs.add(new Docs.fromJson(v));
+        docs.add(new Quote.fromJson(v));
       });
     }
   }
 }
 
-class Docs {
+class Quote {
   String id;
   String dialog;
   String movie;
   String character;
 
-  Docs({this.id, this.dialog, this.movie, this.character});
+  Quote({this.id, this.dialog, this.movie, this.character});
 
-  Docs.fromJson(Map<String, dynamic> json) {
+  Quote.fromJson(Map<String, dynamic> json) {
     id = json['_id'];
     dialog = json['dialog'];
     movie = json['movie'];
