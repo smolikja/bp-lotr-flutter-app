@@ -7,6 +7,7 @@ import 'package:bp_flutter_app/models/movies_model.dart';
 import 'package:bp_flutter_app/globals.dart';
 import 'package:bp_flutter_app/helpers/constants.dart';
 import 'package:bp_flutter_app/screens/movie_screen.dart';
+import 'package:bp_flutter_app/widgets/load_failed_widget.dart';
 
 class MoviesListScreen extends BaseStatefulWidget {
   MoviesListScreen({
@@ -41,6 +42,14 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
           if (snapshot.connectionState != ConnectionState.done) {
             return Center(
               child: CircularProgressIndicator(),
+            );
+          }
+          if (snapshot.data == null) {
+            return LoadFailedWidget(
+              function: () {
+                _moviesFuture = _getMovies();
+                setState(() {});
+              },
             );
           }
           _moviesData = snapshot.data;

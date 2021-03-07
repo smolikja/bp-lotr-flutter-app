@@ -12,6 +12,7 @@ import 'package:bp_flutter_app/widgets/movie_info_widget.dart';
 import 'package:flutter/services.dart';
 import 'package:bp_flutter_app/bloc/quote_list_bloc.dart';
 import 'package:bp_flutter_app/services/app_localizations.dart';
+import 'package:bp_flutter_app/widgets/load_failed_widget.dart';
 
 class MovieScreen extends BaseStatefulWidget {
   final Movie movie;
@@ -62,6 +63,14 @@ class _MovieScreenState extends State<MovieScreen> {
                   if (snapshot.connectionState != ConnectionState.done) {
                     return Center(
                       child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (snapshot.data == null) {
+                    return LoadFailedWidget(
+                      function: () {
+                        _quotesFuture = _getQuotes();
+                        setState(() {});
+                      },
                     );
                   }
                   _quoteData = snapshot.data.take(_shownQuotes).toList();

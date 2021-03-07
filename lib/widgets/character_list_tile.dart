@@ -4,6 +4,7 @@ import 'package:bp_flutter_app/screens/base_stateful_widget.dart';
 import 'package:bp_flutter_app/models/characters_model.dart';
 import 'package:bp_flutter_app/helpers/constants.dart';
 import 'package:bp_flutter_app/screens/character_screen.dart';
+import 'package:bp_flutter_app/widgets/load_failed_widget.dart';
 
 class CharacterListTile extends BaseStatefulWidget {
   final String characterId;
@@ -31,12 +32,21 @@ class _CharacterListTileState extends State<CharacterListTile> {
   Widget build(BuildContext context) {
     return FutureBuilder<Character>(
       future: _characterFuture,
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<Character> snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           return Center(
             child: CircularProgressIndicator(),
           );
         }
+        if (snapshot.data == null) {
+          return LoadFailedWidget(
+            function: () {
+              _characterFuture = _getCharacter();
+              setState(() {});
+            },
+          );
+        }
+
         _characterData = snapshot.data;
         if (_characterData.name.isNotEmpty) {
           return ListTile(

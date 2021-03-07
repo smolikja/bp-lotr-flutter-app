@@ -24,5 +24,8 @@
     "character_title_hair": "hair:",
     "character_title_name": "name:",
 
-    "quote_copy_text": "Quote copied to clipboard"
+    "quote_copy_text": "Quote copied to clipboard",
+
+    "failed_load_title": "Failed to load :(",
+    "failed_load_refresh": "Refresh, please"
 }
