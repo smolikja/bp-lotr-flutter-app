@@ -53,7 +53,7 @@ class _CharacterListTileState extends State<CharacterListTile> {
             dense: true,
           );
         } else {
-          throw UnimplementedError();
+          return null;
         }
       },
     );

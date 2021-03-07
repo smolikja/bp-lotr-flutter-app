@@ -84,7 +84,7 @@ class _MovieScreenState extends State<MovieScreen> {
                           ],
                         );
                       } else {
-                        throw UnimplementedError();
+                        return null;
                       }
                     },
                   ),
