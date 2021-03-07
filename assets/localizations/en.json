@@ -22,5 +22,7 @@
     "character_title_death": "death:",
     "character_title_realm": "realm:",
     "character_title_hair": "hair:",
-    "character_title_name": "name:"
+    "character_title_name": "name:",
+
+    "quote_copy_text": "Quote copied to clipboard"
 }

@@ -1,3 +1,4 @@
+import 'package:bp_flutter_app/events/quote_list_event.dart';
 import 'package:bp_flutter_app/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:bp_flutter_app/screens/base_stateful_widget.dart';
@@ -9,7 +10,7 @@ import 'package:bp_flutter_app/widgets/character_list_tile.dart';
 import 'package:bp_flutter_app/widgets/separator.dart';
 import 'package:bp_flutter_app/widgets/movie_info_widget.dart';
 import 'package:flutter/services.dart';
-
+import 'package:bp_flutter_app/bloc/quote_list_bloc.dart';
 import 'package:bp_flutter_app/services/app_localizations.dart';
 
 class MovieScreen extends BaseStatefulWidget {
@@ -26,7 +27,8 @@ class _MovieScreenState extends State<MovieScreen> {
   Future<List<Quote>> _quotesFuture;
   List<Quote> _quoteData;
   ScrollController _scrollController = ScrollController();
-  int _quotesToShow = 10;
+  final _bloc = QuoteListBloc();
+  int _shownQuotes = 0;
 
   @override
   void initState() {
@@ -38,6 +40,7 @@ class _MovieScreenState extends State<MovieScreen> {
   @override
   void dispose() {
     _scrollController.removeListener(_scrollListener);
+    _bloc.dispose();
     super.dispose();
   }
 
@@ -48,64 +51,71 @@ class _MovieScreenState extends State<MovieScreen> {
           title: widget.movie.name,
           fullscreenPush: widget.fullscreenPush,
         ),
-        body: FutureBuilder<List<Quote>>(
-          future: _quotesFuture,
-          builder: (BuildContext context, AsyncSnapshot<List<Quote>> snapshot) {
-            if (snapshot.connectionState != ConnectionState.done) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            _quoteData = snapshot.data.take(_quotesToShow).toList();
+        body: StreamBuilder<Object>(
+            stream: _bloc.quoteList,
+            initialData: 10,
+            builder: (context, blocSnapshot) {
+              _shownQuotes = blocSnapshot.data;
+              return FutureBuilder<List<Quote>>(
+                future: _quotesFuture,
+                builder: (BuildContext context, AsyncSnapshot<List<Quote>> snapshot) {
+                  if (snapshot.connectionState != ConnectionState.done) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  _quoteData = snapshot.data.take(_shownQuotes).toList();
 
-            return SingleChildScrollView(
-              controller: _scrollController,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  MovieInfoWidget(movie: widget.movie),
-                  Separator(),
-                  ListView.separated(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    separatorBuilder: (context, index) => ListDivider(indent: 16.0),
-                    itemCount: _quoteData.length,
-                    itemBuilder: (context, index) {
-                      if (_quoteData[index].dialog.isNotEmpty) {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: MediaQuery.of(context).size.width,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 8.0),
-                                child: GestureDetector(
-                                  child: Text(_quoteData[index].dialog),
-                                  onLongPress: () {
-                                    Clipboard.setData(new ClipboardData(text: _quoteData[index].dialog)).then((_) {
-                                      Scaffold.of(context).showSnackBar(SnackBar(
-                                        content: Text(AppLocalizations.of(context).translate("quote_copy_text")),
-                                        duration: Duration(seconds: 1),
-                                      ));
-                                    });
-                                  },
-                                ),
-                              ),
-                            ),
-                            CharacterListTile(
-                                fullscreenPush: widget.fullscreenPush, characterId: _quoteData[index].character)
-                          ],
-                        );
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
-                ],
-              ),
-            );
-          },
-        ));
+                  return SingleChildScrollView(
+                    controller: _scrollController,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        MovieInfoWidget(movie: widget.movie),
+                        Separator(),
+                        ListView.separated(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          separatorBuilder: (context, index) => ListDivider(indent: 16.0),
+                          itemCount: _quoteData.length,
+                          itemBuilder: (context, index) {
+                            if (_quoteData[index].dialog.isNotEmpty) {
+                              return Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 8.0),
+                                      child: GestureDetector(
+                                        child: Text(_quoteData[index].dialog),
+                                        onLongPress: () {
+                                          Clipboard.setData(new ClipboardData(text: _quoteData[index].dialog))
+                                              .then((_) {
+                                            Scaffold.of(context).showSnackBar(SnackBar(
+                                              content: Text(AppLocalizations.of(context).translate("quote_copy_text")),
+                                              duration: Duration(seconds: 1),
+                                            ));
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  CharacterListTile(
+                                      fullscreenPush: widget.fullscreenPush, characterId: _quoteData[index].character)
+                                ],
+                              );
+                            } else {
+                              return null;
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            }));
   }
 
   Future<List<Quote>> _getQuotes() async {
@@ -113,10 +123,8 @@ class _MovieScreenState extends State<MovieScreen> {
   }
 
   void _scrollListener() {
-    if (_scrollController.position.extentAfter < _quotesToShow) {
-      setState(() {
-        _quotesToShow = _quotesToShow + 10;
-      });
+    if (_scrollController.position.extentAfter < _shownQuotes) {
+      _bloc.quoteListEventSink.add(IncrementEvent());
     }
   }
 }
