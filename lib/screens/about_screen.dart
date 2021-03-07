@@ -15,6 +15,7 @@ class AboutScreen extends BaseStatefulWidget {
 
 class _AboutScreenScreenState extends State<AboutScreen> {
   List<String> _rows = [
+    "Guess quote's character!",
     "school project",
     "fun made by Jakub Smolik",
     "smolikja@protonmail.com",
