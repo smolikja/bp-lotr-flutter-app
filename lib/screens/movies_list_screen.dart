@@ -58,10 +58,8 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => MovieScreen(
-                                      fullscreenPush: widget.fullscreenPush,
-                                      movieId: _moviesData[index].id,
-                                      title: _moviesData[index].name)));
+                                  builder: (context) =>
+                                      MovieScreen(fullscreenPush: widget.fullscreenPush, movie: _moviesData[index])));
                         },
                         title: Text(_moviesData[index].name,
                             style: TextStyle(color: Colors.white, fontSize: 14.0, fontWeight: FontWeight.bold)),
