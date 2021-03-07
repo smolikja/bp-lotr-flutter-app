@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:bp_flutter_app/models/characters_model.dart';
 import 'package:bp_flutter_app/widgets/info_row.dart';
 import 'package:bp_flutter_app/services/app_localizations.dart';
+import 'package:bp_flutter_app/helpers/constants.dart';
 
 class CharacterInfoWidget extends StatelessWidget {
   final Character character;
+  final Function onShareTap;
 
-  CharacterInfoWidget({@required this.character});
+  CharacterInfoWidget({@required this.character, @required this.onShareTap});
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +40,19 @@ class CharacterInfoWidget extends StatelessWidget {
                 InfoRow(title: AppLocalizations.of(context).translate("character_title_realm"), value: character.realm),
               if (character.death != null && character.death.isNotEmpty)
                 InfoRow(title: AppLocalizations.of(context).translate("character_title_death"), value: character.death),
+              if (character.wikiUrl != null && character.wikiUrl.isNotEmpty)
+                Row(
+                  children: [
+                    Spacer(),
+                    GestureDetector(
+                      onTap: onShareTap,
+                      child: Icon(
+                        Icons.share_rounded,
+                        color: kPrimaryColor,
+                      ),
+                    )
+                  ],
+                )
             ],
           ),
         ));

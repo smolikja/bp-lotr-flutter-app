@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:bp_flutter_app/services/app_localizations.dart';
 import 'package:bp_flutter_app/bloc/quote_list_bloc.dart';
 import 'package:bp_flutter_app/widgets/load_failed_widget.dart';
+import 'package:share/share.dart';
 
 class CharacterScreen extends BaseStatefulWidget {
   final Character character;
@@ -81,7 +82,12 @@ class _CharacterScreenState extends State<CharacterScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      CharacterInfoWidget(character: widget.character),
+                      CharacterInfoWidget(
+                        character: widget.character,
+                        onShareTap: () {
+                          Share.share(widget.character.wikiUrl);
+                        },
+                      ),
                       Separator(),
                       ListView.separated(
                         physics: NeverScrollableScrollPhysics(),
