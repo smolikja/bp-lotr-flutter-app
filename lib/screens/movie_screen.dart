@@ -68,20 +68,24 @@ class _MovieScreenState extends State<MovieScreen> {
                     separatorBuilder: (context, index) => ListDivider(indent: 16.0),
                     itemCount: _quoteData.length,
                     itemBuilder: (context, index) {
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 8.0),
-                              child: Text(_quoteData[index].dialog),
+                      if (_quoteData[index].dialog != "") {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 8.0),
+                                child: Text(_quoteData[index].dialog),
+                              ),
                             ),
-                          ),
-                          CharacterListTile(
-                              fullscreenPush: widget.fullscreenPush, characterId: _quoteData[index].character)
-                        ],
-                      );
+                            CharacterListTile(
+                                fullscreenPush: widget.fullscreenPush, characterId: _quoteData[index].character)
+                          ],
+                        );
+                      } else {
+                        throw UnimplementedError();
+                      }
                     },
                   ),
                 ],

@@ -69,13 +69,17 @@ class _CharacterScreenState extends State<CharacterScreen> {
                   separatorBuilder: (context, index) => ListDivider(indent: 16.0),
                   itemCount: _quoteData.length,
                   itemBuilder: (context, index) {
-                    return Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(_quoteData[index].dialog),
-                      ),
-                    );
+                    if (_quoteData[index].dialog != "") {
+                      return Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text(_quoteData[index].dialog),
+                        ),
+                      );
+                    } else {
+                      return null;
+                    }
                   },
                 ),
               ],

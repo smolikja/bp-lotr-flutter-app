@@ -38,19 +38,23 @@ class _CharacterListTileState extends State<CharacterListTile> {
           );
         }
         _characterData = snapshot.data;
-        return ListTile(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        CharacterScreen(fullscreenPush: widget.fullscreenPush, character: _characterData)));
-          },
-          title: Text(_characterData.name,
-              style: TextStyle(color: kGreyDarkColor, fontSize: 14.0, fontWeight: FontWeight.bold)),
-          trailing: Icon(Icons.keyboard_arrow_right, color: kGreyDarkColor, size: 24),
-          dense: true,
-        );
+        if (_characterData.name != "") {
+          return ListTile(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          CharacterScreen(fullscreenPush: widget.fullscreenPush, character: _characterData)));
+            },
+            title: Text(_characterData.name,
+                style: TextStyle(color: kGreyDarkColor, fontSize: 14.0, fontWeight: FontWeight.bold)),
+            trailing: Icon(Icons.keyboard_arrow_right, color: kGreyDarkColor, size: 24),
+            dense: true,
+          );
+        } else {
+          throw UnimplementedError();
+        }
       },
     );
   }
