@@ -5,6 +5,7 @@ import 'package:bp_flutter_app/widgets/custom_appbar.dart';
 import 'package:bp_flutter_app/models/movies_model.dart';
 import 'package:bp_flutter_app/models/quotes_model.dart';
 import 'package:bp_flutter_app/widgets/list_divider.dart';
+import 'package:bp_flutter_app/widgets/character_list_tile.dart';
 
 class MovieScreen extends BaseStatefulWidget {
   final Movie movie;
@@ -64,28 +65,16 @@ class _MovieScreenState extends State<MovieScreen> {
                     separatorBuilder: (context, index) => ListDivider(indent: 16.0),
                     itemCount: _quotesList.length,
                     itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(_quotesList[index].dialog),
-                            //   ListTile(
-                            //   onTap: () {
-                            //     Navigator.push(
-                            //         context,
-                            //         MaterialPageRoute(
-                            //             builder: (context) =>
-                            //                 MovieScreen(fullscreenPush: widget.fullscreenPush, movie: _moviesData[index])));
-                            //   },
-                            //   title: Text(_moviesData[index].name,
-                            //       style: TextStyle(color: Colors.white, fontSize: 14.0, fontWeight: FontWeight.bold)),
-                            //   // leading: items[index].icon,
-                            //   trailing: Icon(Icons.keyboard_arrow_right, color: kGreyLightColor, size: 24),
-                            //   dense: true,
-                            // )
-                          ],
-                        ),
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 8.0),
+                            child: Text(_quotesList[index].dialog),
+                          ),
+                          CharacterListTile(
+                              fullscreenPush: widget.fullscreenPush, characterId: _quotesList[index].character)
+                        ],
                       );
                     },
                   ),
@@ -97,7 +86,7 @@ class _MovieScreenState extends State<MovieScreen> {
   }
 
   Future<List<Quote>> _getQuotes() async {
-    return globalQuotes.docs.where((element) => element.movie == widget.movie.id).toList();
+    return globalQuotes.docs.where((quote) => quote.movie == widget.movie.id).toList();
   }
 
   void _scrollListener() {
