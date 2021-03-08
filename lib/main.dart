@@ -70,27 +70,35 @@ class _MyHomePageState extends State<MyHomePage> {
           globalMovies = JsonParseHelper().getMovies(snapshot.data[1]);
           globalQuotes = JsonParseHelper().getQuotes(snapshot.data[2]);
 
-          return Scaffold(
-            body: SafeArea(
-              top: false,
-              child: _getContent(),
-            ),
-            bottomNavigationBar: BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              currentIndex: _currentIndex,
-              onTap: (int index) {
-                _navigatorKeys[_currentIndex].currentState.popUntil((route) => route.isFirst);
-                setState(() {
-                  _currentIndex = index;
-                });
-              },
-              items: _bottomBarItems.map((_BottomBarItem item) {
-                return BottomNavigationBarItem(
-                  icon: item.icon,
-                  activeIcon: item.iconActive,
-                  label: AppLocalizations.of(context).translate(item.titleKey),
-                );
-              }).toList(),
+          return WillPopScope(
+            onWillPop: () async {
+              final isFirstRouteInCurrentTab = !await _navigatorKeys[_currentIndex].currentState.maybePop();
+              return isFirstRouteInCurrentTab;
+            },
+            child: Scaffold(
+              body: SafeArea(
+                top: false,
+                child: _getContent(),
+              ),
+              bottomNavigationBar: BottomNavigationBar(
+                backgroundColor: Colors.black,
+                unselectedItemColor: kGreyDarkColor,
+                type: BottomNavigationBarType.fixed,
+                currentIndex: _currentIndex,
+                onTap: (int index) {
+                  _navigatorKeys[_currentIndex].currentState.popUntil((route) => route.isFirst);
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                },
+                items: _bottomBarItems.map((_BottomBarItem item) {
+                  return BottomNavigationBarItem(
+                    icon: item.icon,
+                    activeIcon: item.iconActive,
+                    label: AppLocalizations.of(context).translate(item.titleKey),
+                  );
+                }).toList(),
+              ),
             ),
           );
         },
@@ -143,10 +151,11 @@ void main() {
       ],
       title: 'LOTR Guess Quote',
       theme: ThemeData(
-        primarySwatch: createMaterialColor(kPrimaryColor),
-        primaryTextTheme: TextTheme(headline6: TextStyle(color: createMaterialColor(kPrimaryColor))),
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+          primarySwatch: createMaterialColor(kPrimaryColor),
+          primaryTextTheme: TextTheme(headline6: TextStyle(color: createMaterialColor(kPrimaryColor))),
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          scaffoldBackgroundColor: Colors.black,
+          textTheme: TextTheme(bodyText1: TextStyle(), bodyText2: TextStyle()).apply(bodyColor: Colors.white)),
       home: MyHomePage(),
     ),
   ));

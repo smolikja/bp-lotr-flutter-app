@@ -20,10 +20,10 @@ class CustomAppBar extends BaseStatelessWidget with PreferredSizeWidget {
       iconTheme: IconThemeData(
         color: Theme.of(context).primaryColor,
       ),
-      title: Text(title),
+      title: Text(title.toUpperCase()),
       centerTitle: true,
-      backgroundColor: Colors.white,
-      brightness: Brightness.light,
+      backgroundColor: Colors.black,
+      brightness: Brightness.dark,
       actions: [
         if (!_hideAbout)
           InkWell(

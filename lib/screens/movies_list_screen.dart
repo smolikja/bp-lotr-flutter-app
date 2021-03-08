@@ -6,6 +6,8 @@ import 'package:bp_flutter_app/widgets/list_divider.dart';
 import 'package:bp_flutter_app/models/movies_model.dart';
 import 'package:bp_flutter_app/globals.dart';
 import 'package:bp_flutter_app/helpers/constants.dart';
+import 'package:bp_flutter_app/screens/movie_screen.dart';
+import 'package:bp_flutter_app/widgets/load_failed_widget.dart';
 
 class MoviesListScreen extends BaseStatefulWidget {
   MoviesListScreen({
@@ -18,12 +20,13 @@ class MoviesListScreen extends BaseStatefulWidget {
 }
 
 class _MoviesListScreenState extends State<MoviesListScreen> {
-  MoviesModel _moviesData;
+  List<Movie> _moviesData;
+  Future<List<Movie>> _moviesFuture;
 
   @override
   void initState() {
     super.initState();
-    _moviesData = globalMovies;
+    _moviesFuture = _getMovies();
   }
 
   @override
@@ -33,51 +36,72 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
         title: AppLocalizations.of(context).translate('appbar_movies_list'),
         fullscreenPush: widget.fullscreenPush,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            ListView.separated(
-              shrinkWrap: true,
-              // physics: NeverScrollableScrollPhysics(),
-              separatorBuilder: (context, index) => ListDivider(indent: 16.0),
-              itemCount: _moviesData.docs.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  child: ListTile(
-                    onTap: () {
-                      // _onItemTap(items[index].fullscreen, items[index].screen);
-                    },
-                    title: Text(_moviesData.docs[index].name,
-                        style: TextStyle(color: kPrimaryColor, fontSize: 14.0, fontWeight: FontWeight.bold)),
-                    // leading: items[index].icon,
-                    trailing: Icon(Icons.keyboard_arrow_right, color: kGreyLightColor, size: 24),
-                    dense: true,
-                  ),
-                );
+      body: FutureBuilder<List<Movie>>(
+        future: _moviesFuture,
+        builder: (BuildContext context, AsyncSnapshot<List<Movie>> snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (snapshot.data == null) {
+            return LoadFailedWidget(
+              function: () {
+                _moviesFuture = _getMovies();
+                setState(() {});
               },
+            );
+          }
+          _moviesData = snapshot.data;
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                ListView.separated(
+                  shrinkWrap: true,
+                  separatorBuilder: (context, index) => ListDivider(indent: 16.0),
+                  itemCount: _moviesData.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                      child: ListTile(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      MovieScreen(fullscreenPush: widget.fullscreenPush, movie: _moviesData[index])));
+                        },
+                        title: Text(_moviesData[index].name,
+                            style: TextStyle(color: Colors.white, fontSize: 14.0, fontWeight: FontWeight.bold)),
+                        subtitle: Row(
+                          children: [
+                            Text(
+                              AppLocalizations.of(context).translate('movie_title_rotten_score'),
+                              style: TextStyle(color: kGreyDarkColor),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: Text(
+                                _moviesData[index].rottenTomatesScore.toString() + "/100",
+                                style: TextStyle(color: kGreyDarkColor, fontWeight: FontWeight.bold),
+                              ),
+                            )
+                          ],
+                        ),
+                        trailing: Icon(Icons.keyboard_arrow_right, color: kGreyLightColor, size: 24),
+                        dense: true,
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
-            // FutureBuilder<String>(
-            //     future: _versionFuture,
-            //     builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-            //       if (snapshot.connectionState == ConnectionState.done && !snapshot.hasError && snapshot.data != null) {
-            //         return GestureDetector(
-            //           child: Container(
-            //             alignment: Alignment.center,
-            //             width: double.infinity,
-            //             padding: EdgeInsets.only(top: 8, bottom: 16),
-            //             child: Text(
-            //               snapshot.data,
-            //               style: TextStyle(color: kGreyLightColor, fontSize: 14),
-            //             ),
-            //           ),
-            //           onDoubleTap: _switchTestTopicSubscription,
-            //         );
-            //       }
-            //       return Container();
-            //     }),
-          ],
-        ),
+          );
+        },
       ),
     );
+  }
+
+  Future<List<Movie>> _getMovies() async {
+    return globalMovies.docs;
   }
 }

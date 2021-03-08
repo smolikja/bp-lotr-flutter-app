@@ -1,5 +1,5 @@
 class CharactersModel {
-  List<Docs> docs;
+  List<Character> docs;
 
   CharactersModel({this.docs});
 
@@ -7,13 +7,13 @@ class CharactersModel {
     if (json['docs'] != null) {
       docs = [];
       json['docs'].forEach((v) {
-        docs.add(new Docs.fromJson(v));
+        docs.add(new Character.fromJson(v));
       });
     }
   }
 }
 
-class Docs {
+class Character {
   String id;
   String height;
   String race;
@@ -26,7 +26,7 @@ class Docs {
   String name;
   String wikiUrl;
 
-  Docs(
+  Character(
       {this.id,
       this.height,
       this.race,
@@ -39,7 +39,7 @@ class Docs {
       this.name,
       this.wikiUrl});
 
-  Docs.fromJson(Map<String, dynamic> json) {
+  Character.fromJson(Map<String, dynamic> json) {
     id = json['_id'];
     height = json['height'];
     race = json['race'];

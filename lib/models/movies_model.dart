@@ -1,5 +1,5 @@
 class MoviesModel {
-  List<Docs> docs;
+  List<Movie> docs;
 
   MoviesModel({this.docs});
 
@@ -7,13 +7,13 @@ class MoviesModel {
     if (json['docs'] != null) {
       docs = [];
       json['docs'].forEach((v) {
-        docs.add(new Docs.fromJson(v));
+        docs.add(new Movie.fromJson(v));
       });
     }
   }
 }
 
-class Docs {
+class Movie {
   String id;
   String name;
   dynamic runtimeInMinutes;
@@ -23,7 +23,7 @@ class Docs {
   dynamic academyAwardWins;
   dynamic rottenTomatesScore;
 
-  Docs(
+  Movie(
       {this.id,
       this.name,
       this.runtimeInMinutes,
@@ -33,7 +33,7 @@ class Docs {
       this.academyAwardWins,
       this.rottenTomatesScore});
 
-  Docs.fromJson(Map<String, dynamic> json) {
+  Movie.fromJson(Map<String, dynamic> json) {
     id = json['_id'];
     name = json['name'];
     runtimeInMinutes = json['runtimeInMinutes'];

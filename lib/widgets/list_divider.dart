@@ -8,6 +8,6 @@ class ListDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Divider(color: kGreyLightColor, height: 1.0, indent: indent ?? 0, endIndent: indent ?? 0);
+    return Divider(color: kPrimaryColor, height: 1.0, indent: indent ?? 0, endIndent: indent ?? 0);
   }
 }

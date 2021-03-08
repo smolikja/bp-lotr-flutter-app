@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.bp_flutter_app">
    <application
-        android:label="bp_flutter_app"
+        android:label="LOTR: Guess the quote!"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
