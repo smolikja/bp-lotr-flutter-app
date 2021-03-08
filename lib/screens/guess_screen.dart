@@ -12,6 +12,7 @@ import 'package:bp_flutter_app/widgets/load_failed_widget.dart';
 import 'package:bp_flutter_app/widgets/separator.dart';
 import 'package:bp_flutter_app/bloc/guess_screen_bloc.dart';
 import "dart:math";
+import 'package:flutter/services.dart';
 
 class GuessScreen extends BaseStatefulWidget {
   GuessScreen({
@@ -80,9 +81,20 @@ class _GuessScreenState extends State<GuessScreen> {
                         child: SingleChildScrollView(
                           child: Padding(
                             padding: const EdgeInsets.all(24.0),
-                            child: Text(
-                              _contentData.keys.first.dialog,
-                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0),
+                            child: GestureDetector(
+                              onLongPress: () {
+                                Clipboard.setData(new ClipboardData(text: _contentData.keys.first.dialog)).then((_) {
+                                  Scaffold.of(context).showSnackBar(SnackBar(
+                                    content: Text(AppLocalizations.of(context).translate("quote_copy_text")),
+                                    duration: Duration(seconds: 1),
+                                  ));
+                                });
+                              },
+                              child: Text(
+                                _contentData.keys.first.dialog,
+                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
                           ),
                         ),
