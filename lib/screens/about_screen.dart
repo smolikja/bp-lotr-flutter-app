@@ -15,11 +15,14 @@ class AboutScreen extends BaseStatefulWidget {
 
 class _AboutScreenScreenState extends State<AboutScreen> {
   List<String> _rows = [
-    "Guess quote's character!",
     "school project",
     "fun made by Jakub Smolik",
     "smolikja@protonmail.com",
-    "LOTR data credits: https://the-one-api.dev/"
+    "LOTR data credits: https://the-one-api.dev/",
+    "<<==========>>",
+    "guess quote's character",
+    "hold quote to copy into clipboard",
+    "share character's profile with friends"
   ];
 
   @override
