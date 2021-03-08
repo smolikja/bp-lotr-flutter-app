@@ -72,7 +72,21 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
                         },
                         title: Text(_moviesData[index].name,
                             style: TextStyle(color: Colors.white, fontSize: 14.0, fontWeight: FontWeight.bold)),
-                        // leading: items[index].icon,
+                        subtitle: Row(
+                          children: [
+                            Text(
+                              AppLocalizations.of(context).translate('movie_title_rotten_score'),
+                              style: TextStyle(color: kGreyDarkColor),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: Text(
+                                _moviesData[index].rottenTomatesScore.toString() + "/100",
+                                style: TextStyle(color: kGreyDarkColor, fontWeight: FontWeight.bold),
+                              ),
+                            )
+                          ],
+                        ),
                         trailing: Icon(Icons.keyboard_arrow_right, color: kGreyLightColor, size: 24),
                         dense: true,
                       ),

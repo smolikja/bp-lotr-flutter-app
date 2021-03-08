@@ -42,7 +42,7 @@ class MovieInfoWidget extends StatelessWidget {
               if (movie.rottenTomatesScore != null)
                 InfoRow(
                     title: AppLocalizations.of(context).translate("movie_title_rotten_score"),
-                    value: movie.rottenTomatesScore.toString())
+                    value: movie.rottenTomatesScore.toString() + "/100")
             ],
           ),
         ));
