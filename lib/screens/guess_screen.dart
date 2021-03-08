@@ -85,7 +85,13 @@ class _GuessScreenState extends State<GuessScreen> {
                               onLongPress: () {
                                 Clipboard.setData(new ClipboardData(text: _contentData.keys.first.dialog)).then((_) {
                                   Scaffold.of(context).showSnackBar(SnackBar(
-                                    content: Text(AppLocalizations.of(context).translate("quote_copy_text")),
+                                    content: Row(
+                                      children: [
+                                        Spacer(),
+                                        Text(AppLocalizations.of(context).translate("quote_copy_text")),
+                                        Spacer()
+                                      ],
+                                    ),
                                     duration: Duration(seconds: 1),
                                   ));
                                 });

@@ -105,7 +105,13 @@ class _CharacterScreenState extends State<CharacterScreen> {
                                     onLongPress: () {
                                       Clipboard.setData(new ClipboardData(text: _quoteData[index].dialog)).then((_) {
                                         Scaffold.of(context).showSnackBar(SnackBar(
-                                          content: Text(AppLocalizations.of(context).translate("quote_copy_text")),
+                                          content: Row(
+                                            children: [
+                                              Spacer(),
+                                              Text(AppLocalizations.of(context).translate("quote_copy_text")),
+                                              Spacer()
+                                            ],
+                                          ),
                                           duration: Duration(seconds: 1),
                                         ));
                                       });
