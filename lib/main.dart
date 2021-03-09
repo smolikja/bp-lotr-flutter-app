@@ -149,7 +149,7 @@ void main() {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
-      title: 'LOTR Guess Quote',
+      title: 'LOTR Guess Character',
       theme: ThemeData(
           primarySwatch: createMaterialColor(kPrimaryColor),
           primaryTextTheme: TextTheme(headline6: TextStyle(color: createMaterialColor(kPrimaryColor))),

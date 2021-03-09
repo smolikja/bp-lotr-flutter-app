@@ -19,8 +19,8 @@ class _AboutScreenScreenState extends State<AboutScreen> {
     "fun made by Jakub Smolik",
     "smolikja@protonmail.com",
     "LOTR data credits: https://the-one-api.dev/",
-    "<<==========>>",
-    "guess quote's character",
+    "<<======>>",
+    "guess the character by its quote",
     "hold quote to copy into clipboard",
     "share character's profile with friends"
   ];
