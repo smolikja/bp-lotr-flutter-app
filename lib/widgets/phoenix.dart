@@ -25,7 +25,7 @@ class _PhoenixState extends State<Phoenix> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: Colors.black,
       child: KeyedSubtree(
         key: key,
         child: widget.child,
