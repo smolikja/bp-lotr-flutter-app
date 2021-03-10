@@ -3,7 +3,6 @@ import 'package:bp_flutter_app/globals.dart';
 import 'package:bp_flutter_app/helpers/json_parse_helper.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:bp_flutter_app/services/app_localizations.dart';
-import 'package:bp_flutter_app/widgets/phoenix.dart';
 import 'package:bp_flutter_app/screens/guess_screen.dart';
 import 'package:bp_flutter_app/screens/movies_list_screen.dart';
 import 'package:bp_flutter_app/helpers/color_helper.dart';
@@ -141,22 +140,20 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 void main() {
-  runApp(Phoenix(
-    child: MaterialApp(
-      supportedLocales: [Locale('en', 'US')],
-      localizationsDelegates: [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      title: 'LOTR Guess Character',
-      theme: ThemeData(
-          primarySwatch: createMaterialColor(kPrimaryColor),
-          primaryTextTheme: TextTheme(headline6: TextStyle(color: createMaterialColor(kPrimaryColor))),
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          scaffoldBackgroundColor: Colors.black,
-          textTheme: TextTheme(bodyText1: TextStyle(), bodyText2: TextStyle()).apply(bodyColor: Colors.white)),
-      home: MyHomePage(),
-    ),
+  runApp(MaterialApp(
+    supportedLocales: [Locale('en', 'US')],
+    localizationsDelegates: [
+      AppLocalizations.delegate,
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+    ],
+    title: 'LOTR Guess Character',
+    theme: ThemeData(
+        primarySwatch: createMaterialColor(kPrimaryColor),
+        primaryTextTheme: TextTheme(headline6: TextStyle(color: createMaterialColor(kPrimaryColor))),
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        scaffoldBackgroundColor: Colors.black,
+        textTheme: TextTheme(bodyText1: TextStyle(), bodyText2: TextStyle()).apply(bodyColor: Colors.white)),
+    home: MyHomePage(),
   ));
 }
