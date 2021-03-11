@@ -54,54 +54,51 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-          child: FutureBuilder(
-        future: _fetchDataFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState != ConnectionState.done) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          globalCharacters = JsonParseHelper().getCharacters(snapshot.data[0]);
-          globalMovies = JsonParseHelper().getMovies(snapshot.data[1]);
-          globalQuotes = JsonParseHelper().getQuotes(snapshot.data[2]);
-
-          return WillPopScope(
-            onWillPop: () async {
-              final isFirstRouteInCurrentTab = !await _navigatorKeys[_currentIndex].currentState.maybePop();
-              return isFirstRouteInCurrentTab;
-            },
-            child: Scaffold(
-              body: SafeArea(
-                top: false,
-                child: _getContent(),
-              ),
-              bottomNavigationBar: BottomNavigationBar(
-                backgroundColor: Colors.black,
-                unselectedItemColor: kGreyDarkColor,
-                type: BottomNavigationBarType.fixed,
-                currentIndex: _currentIndex,
-                onTap: (int index) {
-                  _navigatorKeys[_currentIndex].currentState.popUntil((route) => route.isFirst);
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                },
-                items: _bottomBarItems.map((_BottomBarItem item) {
-                  return BottomNavigationBarItem(
-                    icon: item.icon,
-                    activeIcon: item.iconActive,
-                    label: AppLocalizations.of(context).translate(item.titleKey),
-                  );
-                }).toList(),
-              ),
-            ),
+    return FutureBuilder(
+      future: _fetchDataFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.done) {
+          return Center(
+            child: CircularProgressIndicator(),
           );
-        },
-      )),
+        }
+
+        globalCharacters = JsonParseHelper().getCharacters(snapshot.data[0]);
+        globalMovies = JsonParseHelper().getMovies(snapshot.data[1]);
+        globalQuotes = JsonParseHelper().getQuotes(snapshot.data[2]);
+
+        return WillPopScope(
+          onWillPop: () async {
+            final isFirstRouteInCurrentTab = !await _navigatorKeys[_currentIndex].currentState.maybePop();
+            return isFirstRouteInCurrentTab;
+          },
+          child: Scaffold(
+            body: SafeArea(
+              top: false,
+              child: _getContent(),
+            ),
+            bottomNavigationBar: BottomNavigationBar(
+              backgroundColor: Colors.black,
+              unselectedItemColor: kGreyDarkColor,
+              type: BottomNavigationBarType.fixed,
+              currentIndex: _currentIndex,
+              onTap: (int index) {
+                _navigatorKeys[_currentIndex].currentState.popUntil((route) => route.isFirst);
+                setState(() {
+                  _currentIndex = index;
+                });
+              },
+              items: _bottomBarItems.map((_BottomBarItem item) {
+                return BottomNavigationBarItem(
+                  icon: item.icon,
+                  activeIcon: item.iconActive,
+                  label: AppLocalizations.of(context).translate(item.titleKey),
+                );
+              }).toList(),
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -147,7 +144,7 @@ void main() {
       GlobalMaterialLocalizations.delegate,
       GlobalWidgetsLocalizations.delegate,
     ],
-    title: 'LOTR Guess Character',
+    title: 'LOTR: Guess the character!',
     theme: ThemeData(
         primarySwatch: createMaterialColor(kPrimaryColor),
         primaryTextTheme: TextTheme(headline6: TextStyle(color: createMaterialColor(kPrimaryColor))),
