@@ -29,6 +29,7 @@ class _MovieScreenState extends State<MovieScreen> {
   List<Quote> _quoteData;
   ScrollController _scrollController = ScrollController();
   final _bloc = QuoteListBloc();
+  bool _showQuotesLoading;
   int _shownQuotes = 0;
 
   @override
@@ -54,7 +55,7 @@ class _MovieScreenState extends State<MovieScreen> {
         ),
         body: StreamBuilder<Object>(
             stream: _bloc.quoteList,
-            initialData: 10,
+            initialData: 30,
             builder: (context, blocSnapshot) {
               _shownQuotes = blocSnapshot.data;
               return FutureBuilder<List<Quote>>(
@@ -74,6 +75,7 @@ class _MovieScreenState extends State<MovieScreen> {
                     );
                   }
                   _quoteData = snapshot.data.take(_shownQuotes).toList();
+                  _showQuotesLoading = (snapshot.data.length > _shownQuotes) ? true : false;
 
                   return SingleChildScrollView(
                     controller: _scrollController,
@@ -125,6 +127,11 @@ class _MovieScreenState extends State<MovieScreen> {
                             }
                           },
                         ),
+                        if (_showQuotesLoading)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8.0),
+                            child: CircularProgressIndicator(),
+                          ),
                       ],
                     ),
                   );
@@ -138,7 +145,7 @@ class _MovieScreenState extends State<MovieScreen> {
   }
 
   void _scrollListener() {
-    if (_scrollController.position.extentAfter < _shownQuotes) {
+    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
       _bloc.quoteListEventSink.add(IncrementEvent());
     }
   }

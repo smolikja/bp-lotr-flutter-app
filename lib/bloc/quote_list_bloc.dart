@@ -18,7 +18,7 @@ class QuoteListBloc {
   }
 
   void _mapEventToState(QuoteListEvent _) {
-    _quotesToShow = _quotesToShow + 10;
+    _quotesToShow = _quotesToShow + 30;
     _inQuoteList.add(_quotesToShow);
   }
 
