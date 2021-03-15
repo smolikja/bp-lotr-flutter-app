@@ -31,7 +31,6 @@ class _CharacterScreenState extends State<CharacterScreen> {
   List<Quote> _quoteData;
   ScrollController _scrollController = ScrollController();
   final _bloc = QuoteListBloc();
-  bool _showQuotesLoading;
   int _shownQuotes = 0;
 
   @override
@@ -77,7 +76,6 @@ class _CharacterScreenState extends State<CharacterScreen> {
                   );
                 }
                 _quoteData = snapshot.data.take(_shownQuotes).toList();
-                _showQuotesLoading = (snapshot.data.length > _shownQuotes) ? true : false;
 
                 return SingleChildScrollView(
                   controller: _scrollController,
@@ -125,11 +123,6 @@ class _CharacterScreenState extends State<CharacterScreen> {
                           }
                         },
                       ),
-                      if (_showQuotesLoading)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: CircularProgressIndicator(),
-                        ),
                     ],
                   ),
                 );
