@@ -56,7 +56,8 @@ class _GuessScreenState extends State<GuessScreen> {
             _covered = blocSnapshot.data;
             return FutureBuilder<Map<Quote, Character>>(
               future: _contentFuture,
-              builder: (BuildContext context, AsyncSnapshot<Map<Quote, Character>> snapshot) {
+              builder: (BuildContext context,
+                  AsyncSnapshot<Map<Quote, Character>> snapshot) {
                 if (snapshot.connectionState != ConnectionState.done) {
                   return Center(
                     child: CircularProgressIndicator(),
@@ -83,22 +84,22 @@ class _GuessScreenState extends State<GuessScreen> {
                             padding: const EdgeInsets.all(24.0),
                             child: GestureDetector(
                               onLongPress: () {
-                                Clipboard.setData(new ClipboardData(text: _contentData.keys.first.dialog)).then((_) {
-                                  Scaffold.of(context).showSnackBar(SnackBar(
-                                    content: Row(
-                                      children: [
-                                        Spacer(),
-                                        Text(AppLocalizations.of(context).translate("quote_copy_text")),
-                                        Spacer()
-                                      ],
-                                    ),
+                                Clipboard.setData(new ClipboardData(
+                                        text: _contentData.keys.first.dialog))
+                                    .then((_) {
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                    content: Text(AppLocalizations.of(context)
+                                        .translate("quote_copy_text")),
                                     duration: Duration(seconds: 1),
                                   ));
                                 });
                               },
                               child: Text(
                                 _contentData.keys.first.dialog,
-                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 24.0),
                                 textAlign: TextAlign.center,
                               ),
                             ),
@@ -114,8 +115,13 @@ class _GuessScreenState extends State<GuessScreen> {
                           color: kPrimaryColor,
                           child: Center(
                               child: Text(
-                            AppLocalizations.of(context).translate('guess_screen_uncover').toUpperCase(),
-                            style: TextStyle(color: Colors.black, fontSize: 16.0, fontWeight: FontWeight.bold),
+                            AppLocalizations.of(context)
+                                .translate('guess_screen_uncover')
+                                .toUpperCase(),
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold),
                           )),
                         ),
                         onTap: () {
@@ -129,11 +135,16 @@ class _GuessScreenState extends State<GuessScreen> {
                           GestureDetector(
                             child: Container(
                               child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 16.0),
                                 child: Center(
                                   child: Text(
-                                    AppLocalizations.of(context).translate('guess_screen_next').toUpperCase(),
-                                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                                    AppLocalizations.of(context)
+                                        .translate('guess_screen_next')
+                                        .toUpperCase(),
+                                    style: TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ),
@@ -162,12 +173,17 @@ class _GuessScreenState extends State<GuessScreen> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) =>
-                        CharacterScreen(fullscreenPush: widget.fullscreenPush, character: character)));
+                    builder: (context) => CharacterScreen(
+                        fullscreenPush: widget.fullscreenPush,
+                        character: character)));
           },
-          title:
-              Text(character.name, style: TextStyle(color: kPrimaryColor, fontSize: 14.0, fontWeight: FontWeight.bold)),
-          trailing: Icon(Icons.keyboard_arrow_right, color: kPrimaryColor, size: 24),
+          title: Text(character.name,
+              style: TextStyle(
+                  color: kPrimaryColor,
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.bold)),
+          trailing:
+              Icon(Icons.keyboard_arrow_right, color: kPrimaryColor, size: 24),
           dense: true,
         ),
         Separator(customColor: kPrimaryColor)
@@ -177,8 +193,11 @@ class _GuessScreenState extends State<GuessScreen> {
 
   Future<Map<Quote, Character>> _getContent() async {
     final _random = new Random();
-    Quote _randomQuote = globalQuotes.docs[_random.nextInt(globalQuotes.docs.length)];
-    Character _character = globalCharacters.docs.where((character) => character.id == _randomQuote.character).first;
+    Quote _randomQuote =
+        globalQuotes.docs[_random.nextInt(globalQuotes.docs.length)];
+    Character _character = globalCharacters.docs
+        .where((character) => character.id == _randomQuote.character)
+        .first;
     return {_randomQuote: _character};
   }
 }

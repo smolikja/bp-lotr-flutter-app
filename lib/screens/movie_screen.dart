@@ -17,7 +17,10 @@ import 'package:bp_flutter_app/widgets/load_failed_widget.dart';
 class MovieScreen extends BaseStatefulWidget {
   final Movie movie;
 
-  MovieScreen({Key key, @required Function(Widget) fullscreenPush, @required this.movie})
+  MovieScreen(
+      {Key key,
+      @required Function(Widget) fullscreenPush,
+      @required this.movie})
       : super(key: key, fullscreenPush: fullscreenPush);
 
   @override
@@ -59,7 +62,8 @@ class _MovieScreenState extends State<MovieScreen> {
               _shownQuotes = blocSnapshot.data;
               return FutureBuilder<List<Quote>>(
                 future: _quotesFuture,
-                builder: (BuildContext context, AsyncSnapshot<List<Quote>> snapshot) {
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<Quote>> snapshot) {
                   if (snapshot.connectionState != ConnectionState.done) {
                     return Center(
                       child: CircularProgressIndicator(),
@@ -85,7 +89,8 @@ class _MovieScreenState extends State<MovieScreen> {
                         ListView.separated(
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          separatorBuilder: (context, index) => ListDivider(indent: 16.0),
+                          separatorBuilder: (context, index) =>
+                              ListDivider(indent: 16.0),
                           itemCount: _quoteData.length,
                           itemBuilder: (context, index) {
                             if (_quoteData[index].dialog.isNotEmpty) {
@@ -95,20 +100,24 @@ class _MovieScreenState extends State<MovieScreen> {
                                   Container(
                                     width: MediaQuery.of(context).size.width,
                                     child: Padding(
-                                      padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 8.0),
+                                      padding: const EdgeInsets.only(
+                                          left: 16.0,
+                                          right: 16.0,
+                                          top: 16.0,
+                                          bottom: 8.0),
                                       child: GestureDetector(
                                         child: Text(_quoteData[index].dialog),
                                         onLongPress: () {
-                                          Clipboard.setData(new ClipboardData(text: _quoteData[index].dialog))
+                                          Clipboard.setData(new ClipboardData(
+                                                  text:
+                                                      _quoteData[index].dialog))
                                               .then((_) {
-                                            Scaffold.of(context).showSnackBar(SnackBar(
-                                              content: Row(
-                                                children: [
-                                                  Spacer(),
-                                                  Text(AppLocalizations.of(context).translate("quote_copy_text")),
-                                                  Spacer()
-                                                ],
-                                              ),
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(SnackBar(
+                                              content: Text(
+                                                  AppLocalizations.of(context)
+                                                      .translate(
+                                                          "quote_copy_text")),
                                               duration: Duration(seconds: 1),
                                             ));
                                           });
@@ -117,7 +126,8 @@ class _MovieScreenState extends State<MovieScreen> {
                                     ),
                                   ),
                                   CharacterListTile(
-                                      fullscreenPush: widget.fullscreenPush, characterId: _quoteData[index].character)
+                                      fullscreenPush: widget.fullscreenPush,
+                                      characterId: _quoteData[index].character)
                                 ],
                               );
                             } else {
@@ -134,11 +144,15 @@ class _MovieScreenState extends State<MovieScreen> {
   }
 
   Future<List<Quote>> _getQuotes() async {
-    return globalQuotes.docs.where((quote) => quote.movie == widget.movie.id).toList()..shuffle();
+    return globalQuotes.docs
+        .where((quote) => quote.movie == widget.movie.id)
+        .toList()
+          ..shuffle();
   }
 
   void _scrollListener() {
-    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
       _bloc.quoteListEventSink.add(IncrementEvent());
     }
   }
