@@ -61,7 +61,8 @@ class _CharacterScreenState extends State<CharacterScreen> {
             _shownQuotes = blocSnapshot.data;
             return FutureBuilder<List<Quote>>(
               future: _quotesFuture,
-              builder: (BuildContext context, AsyncSnapshot<List<Quote>> snapshot) {
+              builder:
+                  (BuildContext context, AsyncSnapshot<List<Quote>> snapshot) {
                 if (snapshot.connectionState != ConnectionState.done) {
                   return Center(
                     child: CircularProgressIndicator(),
@@ -92,7 +93,8 @@ class _CharacterScreenState extends State<CharacterScreen> {
                       ListView.separated(
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        separatorBuilder: (context, index) => ListDivider(indent: 16.0),
+                        separatorBuilder: (context, index) =>
+                            ListDivider(indent: 16.0),
                         itemCount: _quoteData.length,
                         itemBuilder: (context, index) {
                           if (_quoteData[index].dialog.isNotEmpty) {
@@ -103,15 +105,14 @@ class _CharacterScreenState extends State<CharacterScreen> {
                                   child: GestureDetector(
                                     child: Text(_quoteData[index].dialog),
                                     onLongPress: () {
-                                      Clipboard.setData(new ClipboardData(text: _quoteData[index].dialog)).then((_) {
-                                        Scaffold.of(context).showSnackBar(SnackBar(
-                                          content: Row(
-                                            children: [
-                                              Spacer(),
-                                              Text(AppLocalizations.of(context).translate("quote_copy_text")),
-                                              Spacer()
-                                            ],
-                                          ),
+                                      Clipboard.setData(new ClipboardData(
+                                              text: _quoteData[index].dialog))
+                                          .then((_) {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                          content: Text(AppLocalizations.of(
+                                                  context)
+                                              .translate("quote_copy_text")),
                                           duration: Duration(seconds: 1),
                                         ));
                                       });
@@ -133,11 +134,15 @@ class _CharacterScreenState extends State<CharacterScreen> {
   }
 
   Future<List<Quote>> _getQuotes() async {
-    return globalQuotes.docs.where((quote) => quote.character == widget.character.id).toList()..shuffle();
+    return globalQuotes.docs
+        .where((quote) => quote.character == widget.character.id)
+        .toList()
+          ..shuffle();
   }
 
   void _scrollListener() {
-    if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
       _bloc.quoteListEventSink.add(IncrementEvent());
     }
   }
