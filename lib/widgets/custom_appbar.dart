@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:bp_flutter_app/screens/base_stateless_widget.dart';
 import 'package:bp_flutter_app/screens/about_screen.dart';
+import 'package:flutter/services.dart';
 
 class CustomAppBar extends BaseStatelessWidget with PreferredSizeWidget {
   @override
@@ -9,7 +10,11 @@ class CustomAppBar extends BaseStatelessWidget with PreferredSizeWidget {
   final bool hideAbout;
   final bool _hideAbout;
 
-  CustomAppBar({Key key, this.title, @required Function(Widget) fullscreenPush, this.hideAbout})
+  CustomAppBar(
+      {Key key,
+      this.title,
+      @required Function(Widget) fullscreenPush,
+      this.hideAbout})
       : preferredSize = Size.fromHeight(kToolbarHeight),
         _hideAbout = hideAbout == null ? false : hideAbout,
         super(key: key, fullscreenPush: fullscreenPush);
@@ -23,7 +28,6 @@ class CustomAppBar extends BaseStatelessWidget with PreferredSizeWidget {
       title: Text(title.toUpperCase()),
       centerTitle: true,
       backgroundColor: Colors.black,
-      brightness: Brightness.dark,
       actions: [
         if (!_hideAbout)
           InkWell(
@@ -39,6 +43,7 @@ class CustomAppBar extends BaseStatelessWidget with PreferredSizeWidget {
             ),
           ),
       ],
+      systemOverlayStyle: SystemUiOverlayStyle.dark,
     );
   }
 }
