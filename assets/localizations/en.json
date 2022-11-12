@@ -3,9 +3,7 @@
     "appbar_quotes": "Quotes",
     "appbar_about": "About the App",
     "appbar_movies_list": "Select movie",
-
     "bottombar_guess_quote": "Guess",
-
     "movie_title_name": "name:",
     "movie_title_runtime": "runtime (min):",
     "movie_title_budget": "budget ($mil):",
@@ -13,7 +11,6 @@
     "movie_title_nominations": "Academy Award nominations:",
     "movie_title_wins": "Academy Award wins:",
     "movie_title_rotten_score": "Rotten Tomates score:",
-
     "character_title_height": "height:",
     "character_title_race": "race:",
     "character_title_gender": "gender:",
@@ -23,12 +20,10 @@
     "character_title_realm": "realm:",
     "character_title_hair": "hair:",
     "character_title_name": "name:",
-
     "quote_copy_text": "Quote copied to clipboard",
-
     "failed_load_title": "Failed to load :(",
     "failed_load_refresh": "Refresh, please",
-
     "guess_screen_uncover": "Uncover character",
-    "guess_screen_next": "Next"
+    "guess_screen_next": "Next",
+    "about_text": "school project\nfan-made by Jakub Smolik\nsmolikja@protonmail.com\nLOTR data credits: https://the-one-api.dev/\n-\nguess the character by its quote\nhold quote to copy into clipboard\nshare character's profile with friends"
 }

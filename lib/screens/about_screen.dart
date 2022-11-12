@@ -14,17 +14,6 @@ class AboutScreen extends BaseStatefulWidget {
 }
 
 class _AboutScreenScreenState extends State<AboutScreen> {
-  List<String> _rows = [
-    "school project",
-    "fun made by Jakub Smolik",
-    "smolikja@protonmail.com",
-    "LOTR data credits: https://the-one-api.dev/",
-    "<<======>>",
-    "guess the character by its quote",
-    "hold quote to copy into clipboard",
-    "share character's profile with friends"
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,15 +25,12 @@ class _AboutScreenScreenState extends State<AboutScreen> {
       body: Container(
         width: MediaQuery.of(context).size.width,
         child: SingleChildScrollView(
-            child: Column(
-          children: [_getTextWidgets(_rows)],
+            child: SelectableText(
+          AppLocalizations.of(context).translate('about_text'),
+          textAlign: TextAlign.center,
+          style: TextStyle(height: 3),
         )),
       ),
     );
-  }
-
-  Widget _getTextWidgets(List<String> strings) {
-    return new Column(
-        children: strings.map((item) => new Padding(padding: const EdgeInsets.all(16.0), child: Text(item))).toList());
   }
 }
