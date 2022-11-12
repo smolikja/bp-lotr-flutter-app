@@ -1,4 +1,4 @@
-# bp-lotr-flutter-app
+# bp_lotr_flutter_app
 Flutter school project.
 
 ## LOTR Guess the character
